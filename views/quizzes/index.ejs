@@ -1,3 +1,4 @@
+
 <table>
   <% for (var i in quizzes) { %> 
      <tr>
@@ -9,3 +10,10 @@
 </table>
 
 <a href="/quizzes/new"><button type="button"> Crear pregunta </button></a>
+
+<form method="get" action="/search">
+   <p> Introduzca la pregunta: </p>
+    <input type="text" name="search" value=""
+    		placeholder= "buscar..."/>
+    <input type="submit" value="Enviar">
+  </form>

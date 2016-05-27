@@ -22,5 +22,6 @@ router.get('/quizzes/:quizId(\\d+)',       	quizController.show);
 router.get('/quizzes/:quizId(\\d+)/check', 	quizController.check);
 router.get('/quizzes/new',                  quizController.new);
 router.post('/quizzes',                     quizController.create);
+router.get('/search',                       quizController.search);
 
 module.exports = router;
