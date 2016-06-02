@@ -1,4 +1,4 @@
-var models = require('../models');
+ var models = require('../models');
 var Sequelize = require('sequelize');
 
 
@@ -43,11 +43,11 @@ exports.new = function(req, res, next) {
 };
 
 
+
 // POST /users
 exports.create = function(req, res, next) {
-    var fecha= new Date();
-    fecha= fecha.setSeconds(fecha.getSeconds()+20);
-
+    var fecha =  new Date();
+    fecha = fecha.setSeconds(fecha.getSeconds()+20);
     var user = models.User.build({ username: req.body.user.username,
                                    password: req.body.user.password,
                                    expiracion: fecha
@@ -62,10 +62,10 @@ exports.create = function(req, res, next) {
                 res.render('users/new', { user: user });
             } else {
                 // Guardar en la BBDD
-                return user.save({fields: ["username", "password", "salt"]})
+                return user.save({fields: ["username", "password","expiracion", "salt"]})
                     .then(function(user) { // Renderizar pagina de usuarios
                         req.flash('success', 'Usuario creado con éxito.');
-                        res.redirect('/session'); // Redireccion a pagina de login
+                        res.redirect('/session');
                     })
                     .catch(Sequelize.ValidationError, function(error) {
                         req.flash('error', 'Errores en el formulario:');
@@ -124,13 +124,9 @@ exports.update = function(req, res, next) {
 exports.destroy = function(req, res, next) {
     req.user.destroy()
         .then(function() {
-
-            // Borrando usuario logeado.
-            if (req.session.user && req.session.user.id === req.user.id) {
-                // borra la sesión y redirige a /
+            if(req.session.user && req.session.user.id === req.user.id){
                 delete req.session.user;
             }
-
             req.flash('success', 'Usuario eliminado con éxito.');
             res.redirect('/');
         })

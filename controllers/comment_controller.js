@@ -5,18 +5,21 @@ var Sequelize = require('sequelize');
 // GET /quizzes/:quizId/comments/new
 exports.new = function(req, res, next) {
   var comment = models.Comment.build({text: ""});
-
+  
   res.render('comments/new', { comment: comment, 
-  	                           quiz: req.quiz
-  	                         });
+                               quiz: req.quiz,
+                             });
 };
 
 
 // POST /quizes/:quizId/comments
 exports.create = function(req, res, next) {
+  var nombre = "Desconocido"; 
+  if(req.session.user){nombre= req.session.user.username;};
   var comment = models.Comment.build(
       { text:   req.body.comment.text,          
-        QuizId: req.quiz.id
+        QuizId: req.quiz.id,
+        AuthorId: nombre
       });
 
   comment.save()
@@ -24,7 +27,7 @@ exports.create = function(req, res, next) {
       req.flash('success', 'Comentario creado con éxito.');
       res.redirect('/quizzes/' + req.quiz.id);
     }) 
-	  .catch(Sequelize.ValidationError, function(error) {
+    .catch(Sequelize.ValidationError, function(error) {
 
       req.flash('error', 'Errores en el formulario:');
       for (var i in error.errors) {
@@ -32,10 +35,10 @@ exports.create = function(req, res, next) {
       };
 
       res.render('comments/new', { comment: comment,
-      	                           quiz:    req.quiz});
+                                   quiz:    req.quiz});
     })
     .catch(function(error) {
       req.flash('error', 'Error al crear un Comentario: '+error.message);
-		  next(error);
-	  });    
-};
+      next(error);
+    });    
+}; 

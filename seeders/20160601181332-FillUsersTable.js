@@ -5,7 +5,7 @@ var crypto = require('crypto');
 
 function encryptPassword(password, salt) {
     return crypto.createHmac('sha1', salt).update(password).digest('hex');
-};
+}
 
 
 module.exports = {
@@ -20,7 +20,7 @@ module.exports = {
            createdAt: new Date(), updatedAt: new Date() },
          { username: 'pepe',  
            password: encryptPassword('5678', 'bbbb'),
-           expiracion: new Date(),
+	   expiracion: new Date(),
            salt:     'bbbb',
            createdAt: new Date(), updatedAt: new Date() }
         ]);
