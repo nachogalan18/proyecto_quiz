@@ -15,6 +15,8 @@ module.exports = {
                             } },
                 password: { type: Sequelize.STRING,
                             validate: { notEmpty: {msg: "Falta password"}} },
+                expiracion: { type: Sequelize.TIMESTAMP,
+                            allowNull: false },
                 salt: { type: Sequelize.STRING },
                 isAdmin: { type: Sequelize.BOOLEAN,
                            defaultValue: false },

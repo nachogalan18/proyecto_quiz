@@ -42,6 +42,23 @@ app.use(function(req, res, next) {
    next();
 });
 
+app.use(function(req, res, next){
+  if(req.session.user){
+    var date= new Date();
+    if(date<req.session.user.expiracion)
+    {
+      var expiracion = req.session.user.expiracion;
+       req.session.user.expiracion = date.setMinutes(date.getMinutes()+2);
+       next();
+    }
+    else{
+      delete req.session.user;
+      res.redirect("/session");
+      };
+    }
+    else{next()};
+});
+
 app.use('/', routes);
 
 // catch 404 and forward to error handler

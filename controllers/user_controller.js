@@ -45,8 +45,12 @@ exports.new = function(req, res, next) {
 
 // POST /users
 exports.create = function(req, res, next) {
+    var fecha= new Date();
+    fecha= fecha.setSeconds(fecha.getSeconds()+20);
+
     var user = models.User.build({ username: req.body.user.username,
-                                   password: req.body.user.password
+                                   password: req.body.user.password,
+                                   expiracion: fecha
                                 });
 
     // El login debe ser unico:
